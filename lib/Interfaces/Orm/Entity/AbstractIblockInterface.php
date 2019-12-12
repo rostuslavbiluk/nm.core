@@ -72,7 +72,12 @@ interface AbstractIblockInterface
      *
      * @return AbstractIblockInterface
      */
-    public function setData(array $fields):AbstractIblockInterface;
+    public function setData(array $fields): AbstractIblockInterface;
+
+    /**
+     * @param $id
+     */
+    public function createObject($id): void;
 
     /**
      * @return array
