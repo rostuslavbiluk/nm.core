@@ -3,8 +3,6 @@
 namespace Vendor\Interfaces\Orm\Entity;
 
 use Bitrix\Main\Result;
-use Bitrix\Main\Type\DateTime;
-use Vendor\Orm\Model\UserCustom;
 
 /**
  * Class AbstractIblockInterface
@@ -13,12 +11,12 @@ use Vendor\Orm\Model\UserCustom;
  * @method AbstractIblockInterface|static add(string $code, mixed $value)
  * @method mixed get(string $code, bool $formatted = false)
  */
-interface AbstractIblockInterface
+interface AbstractIblockInterface extends CreatedByIblockInterface, CreatedByIblockInterface, DateCreateIblockInterface
 {
     /**
-     * @return array
+     * @param $id
      */
-    public function getSingleProps(): array;
+    public function createObject($id): void;
 
     /**
      * @return int
@@ -26,29 +24,19 @@ interface AbstractIblockInterface
     public function getId(): int;
 
     /**
-     * @return UserCustom|null
-     */
-    public function getCreatedBy(): ?UserCustom;
-
-    /**
-     * @return int|null
-     */
-    public function getCreatedByReal(): ?int;
-
-    /**
-     * @return DateTime
-     */
-    public function getDateCreate(): DateTime;
-
-    /**
-     * @return int
-     */
-    public function getDateCreateReal(): int;
-
-    /**
      * @return string
      */
     public function getName(): string;
+
+    /**
+     * @return mixed
+     */
+    public function getElement();
+
+    /**
+     * @return array
+     */
+    public function getSingleProps(): array;
 
     /**
      * @param string $name
@@ -63,21 +51,11 @@ interface AbstractIblockInterface
     public function save(): Result;
 
     /**
-     * @return mixed
-     */
-    public function getElement();
-
-    /**
      * @param array $fields
      *
      * @return AbstractIblockInterface
      */
     public function setData(array $fields): AbstractIblockInterface;
-
-    /**
-     * @param $id
-     */
-    public function createObject($id): void;
 
     /**
      * @return array
