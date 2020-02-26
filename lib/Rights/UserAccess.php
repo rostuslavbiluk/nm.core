@@ -51,23 +51,40 @@ class UserAccess
     /**
      * @param int $id
      *
-     * @return UserAccess|null
+     * @return UserAccess
      */
-    public function addCompareIds(int $id): ?UserAccess
+    public function addCompareIds(int $id): self
     {
         $this->compareIds[] = $id;
         return $this;
     }
 
     /**
-     * @return string
+     * @param array $typeRight
+     *
+     * @return UserAccess
      */
-    public function getAccess(): string
+    public function addRights(array $typeRight): self
+    {
+        if (!empty($typeRight)) {
+            foreach ($typeRight as $right) {
+                if (!empty($right)) {
+                    $this->rights[] = $right;
+                }
+            }
+        }
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function getAccess(): bool
     {
         if (in_array($this->userId, $this->compareIds)) {
-            return 'Y';
+            return true;
         }
-        return 'N';
+        return false;
     }
 
     /**
@@ -77,5 +94,16 @@ class UserAccess
     {
         $this->compareIds = [];
         return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function getAccessFormatted(): array
+    {
+        return [
+            'ID'      => $this->userId,
+            'ACTIONS' => array_values(array_unique($this->rights)),
+        ];
     }
 }
