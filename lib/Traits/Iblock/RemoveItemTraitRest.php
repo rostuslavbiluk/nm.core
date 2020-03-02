@@ -7,19 +7,12 @@ namespace Vendor\Traits\Rest\Action;
 use Bitrix\Main\ArgumentException;
 use Bitrix\Main\ObjectPropertyException;
 use Bitrix\Main\SystemException;
-use Vendor\Exception\{
-    Iblock\ElementNotFoundException,
-    Iblock\IblockException,
-    Iblock\IblockNotFoundException,
-    Rest\RestCriticalException,
-    Rest\RestFatalSaveException,
-    Rest\RestValidateException,
-};
+use Vendor\Exception\Iblock\ElementNotFoundException;
 use Rakit\Validation\Validator;
 
 /**
  * Trait RemoveItemTraitRest
- * @package Vendor\Utils\Traits\Rest\Action
+ * @package Vendor\Traits\Iblock
  */
 trait RemoveItemTraitRest
 {
