@@ -77,6 +77,34 @@ class UserAccess
     }
 
     /**
+     * @return array
+     */
+    public function getRightsReal(): array
+    {
+        return array_values(array_unique($this->rights));
+    }
+
+    /**
+     * @param array $rights
+     *
+     * @return $this
+     */
+    public function setRights(array $rights): self
+    {
+        $this->rights = $rights;
+        return $this;
+    }
+
+    /**
+     * @return $this
+     */
+    public function resetRights(): self
+    {
+        $this->rights = [];
+        return $this;
+    }
+
+    /**
      * @return bool
      */
     public function getAccess(): bool
