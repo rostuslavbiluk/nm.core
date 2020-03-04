@@ -3,6 +3,7 @@
 namespace Vendor\Traits\UserAccess;
 
 use Bitrix\Main\{ArgumentException, Engine\CurrentUser, ObjectPropertyException, SystemException};
+use Vendor\Rights\UserAccess;
 use Vendor\Exception\Iblock\IblockNotFoundException;
 use Vendor\Exception\User\UserNotFoundException;
 
@@ -32,6 +33,11 @@ trait UserAccessTraitRest
      * @var
      */
     protected static $entityCurrentStatus;
+    /**
+     * @var UserAccess
+     */
+    protected static $access;
+
 
     /**
      * @param int $entityId
@@ -48,24 +54,6 @@ trait UserAccessTraitRest
             $params['GROUP_ID'] = $entity->getGroupReal();
             $params['SCOPE_ID'] = $entity->getScopeReal();
             $params['STATUS'] = $entity->getStatus()->getXmlId();
-        }
-        return static::userHasRight($params);
-    }
-
-    /**
-     * @param int $entityId
-     *
-     * @return array
-     */
-    public static function getUserRightsForNews(int $entityId): array
-    {
-        $params = [];
-        if ($entityId > 0) {
-            $className = static::ENTITY;
-            $entity = new $className($entityId);
-            $params['AUTHOR_ID'] = $entity->getAuthorReal();
-            $params['GROUP_ID'] = $entity->getGroupReal();
-            $params['SCOPE_ID'] = $entity->getScopeReal();
         }
         return static::userHasRight($params);
     }
