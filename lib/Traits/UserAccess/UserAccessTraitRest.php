@@ -71,7 +71,7 @@ trait UserAccessTraitRest
                 if (!empty($actionPrimary)) {
                     foreach ($actionPrimary as $primaryAction => $itemPrimary) {
                         $result = array_intersect($accessList, $itemPrimary);
-                        if (!empty($result)) {
+                        if (!empty($result) && count($result) > 1) {
                             $accessList = array_diff($accessList, $itemPrimary);
                             $accessList[] = $primaryAction;
                         }
@@ -161,6 +161,22 @@ trait UserAccessTraitRest
     /**
      * @param UserAccess $access
      */
+    protected static function getAccessForEntityResponsible(UserAccess $access): void
+    {
+        if ((int)static::$entityResponsibleId > 0) {
+            $access->addCompareIds(static::$entityResponsibleId);
+            if ($access->getAccess()) {
+                if (defined('static::ACTIONS_ENTITTY_RESPONSIBLE')) {
+                    $actionUserAccess = static::getActionUserAccessByType(static::ACTIONS_ENTITTY_RESPONSIBLE);
+                    $access->addRights($actionUserAccess);
+                }
+            }
+        }
+    }
+
+    /**
+     * @param UserAccess $access
+     */
     protected static function getAccessForActivist(UserAccess $access): void
     {
         if (!empty(static::$entityActivistIds)) {
@@ -206,5 +222,18 @@ trait UserAccessTraitRest
     protected static function prepareActions(UserAccess $access): void
     {
         $access->addRights(self::$entityRights);
+    }
+
+    /**
+     * @param array $buttonSwitch
+     *
+     * @return array
+     */
+    protected static function getActionUserAccessByType(array $buttonSwitch): array
+    {
+        if (!empty($buttonSwitch[static::$entityCurrentStatus])) {
+            $actionUserAccess = $buttonSwitch[static::$entityCurrentStatus];
+        }
+        return $actionUserAccess ?? [];
     }
 }
